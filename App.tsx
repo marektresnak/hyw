@@ -15,8 +15,9 @@ import {
 import { colors, Hero } from './theme';
 import { WelcomeScreen } from './screens/WelcomeScreen';
 import { HeroSetupScreen } from './screens/HeroSetupScreen';
+import { GameScreen } from './screens/GameScreen';
 
-type Screen = 'welcome' | 'heroSetup';
+type Screen = 'welcome' | 'heroSetup' | 'game';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -36,12 +37,14 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      {screen === 'welcome' ? (
+      {screen === 'welcome' && (
         <WelcomeScreen
           hero={hero}
           onIntroduceHero={() => setScreen('heroSetup')}
+          onStartGame={() => setScreen('game')}
         />
-      ) : (
+      )}
+      {screen === 'heroSetup' && (
         <HeroSetupScreen
           hero={hero}
           onSave={(next) => {
@@ -50,6 +53,9 @@ export default function App() {
           }}
           onCancel={() => setScreen('welcome')}
         />
+      )}
+      {screen === 'game' && (
+        <GameScreen hero={hero} onExit={() => setScreen('welcome')} />
       )}
       <StatusBar style="light" />
     </SafeAreaProvider>

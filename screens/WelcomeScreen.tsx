@@ -14,9 +14,10 @@ import { colors, HERO_IMAGE, Hero } from '../theme';
 type Props = {
   hero: Hero;
   onIntroduceHero: () => void;
+  onStartGame: () => void;
 };
 
-export function WelcomeScreen({ hero, onIntroduceHero }: Props) {
+export function WelcomeScreen({ hero, onIntroduceHero, onStartGame }: Props) {
   const greeting = hero.name
     ? `Vítej ${hero.name}, jaké bude další dobrodružství?`
     : 'Vítej hrdino, jaké bude další dobrodružství?';
@@ -66,7 +67,10 @@ export function WelcomeScreen({ hero, onIntroduceHero }: Props) {
           </Text>
 
           <View style={styles.actions}>
-            <Pressable style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}>
+            <Pressable
+              onPress={onStartGame}
+              style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
+            >
               <MaterialIcons name="play-arrow" size={20} color={colors.onSecondaryContainer} />
               <Text style={styles.primaryBtnText}>ZAČÍT</Text>
             </Pressable>

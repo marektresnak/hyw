@@ -33,6 +33,21 @@
         {
           "photosPermission": "Potoulky potřebují přístup k fotkám, abys mohl nastavit tvář svého hrdiny."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Potoulky potřebují foťák, aby ti hrdina mohl vyskočit přímo na místě."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Potoulky používají polohu, aby věděly, že jsi opravdu na zastávce.",
+          "locationWhenInUsePermission": "Potoulky používají polohu, aby věděly, že jsi opravdu na zastávce.",
+          "isIosBackgroundLocationEnabled": false,
+          "isAndroidBackgroundLocationEnabled": false
+        }
       ]
     ]
   }

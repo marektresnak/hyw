@@ -28,7 +28,7 @@ Vypravěč: neutrální množné číslo, bez rozlišování pohlaví hráčů
 
 ## Příběh
 
-### 1. Borovice
+### 1. Borovice (IMG_3993.jpg)
 
 Pssst, slyšíte to šustění? To si borovice šeptají staré tajemství.
 
@@ -36,7 +36,7 @@ V noci tudy proletěla malá jiskřička radosti, ale ztratila osm třpytivých 
 
 Pomůžete nám je najít? První stopa voní po jehličí a vede tam, kde bydlí maličcí broučci.
 
-### 2. Hmyzí domeček
+### 2. Hmyzí domeček (IMG_3994.jpg)
 
 Tady bydlí broučci, včelky a další drobní sousedé.
 
@@ -44,7 +44,7 @@ Jeden z nich našel první třpytku schovanou mezi klacíky. Ale neumí ji odné
 
 Výborně, první kousek máme! Broučci říkají, že další stopa se kutálela pryč... kulatá jako kolo.
 
-### 3. Kola před Vlněnou
+### 3. Kola před Vlněnou (IMG_3995.jpg)
 
 Kola, kola, kolečka!
 
