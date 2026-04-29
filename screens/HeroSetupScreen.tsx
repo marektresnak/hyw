@@ -3,7 +3,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import {
-  ActivityIndicator,
   Alert,
   Image,
   ImageBackground,
@@ -18,7 +17,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, HERO_IMAGE, Hero } from '../theme';
-import { generateHeroPortrait } from '../services/generateHeroPortrait';
 
 type Props = {
   hero: Hero;
@@ -26,16 +24,9 @@ type Props = {
   onCancel: () => void;
 };
 
-type SourcePhoto = {
-  uri: string;
-  base64: string;
-  mimeType: string;
-};
-
 export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
   const [name, setName] = useState(hero.name);
-  const [sourcePhoto, setSourcePhoto] = useState<SourcePhoto | null>(null);
-  const [generating, setGenerating] = useState(false);
+  const [photoUri, setPhotoUri] = useState<string | null>(hero.photoUri);
 
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -52,45 +43,18 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
-      base64: true,
     });
 
-    if (result.canceled || !result.assets[0]) return;
-
-    const asset = result.assets[0];
-    if (!asset.base64) {
-      Alert.alert('Chyba', 'Nepodařilo se načíst fotku.');
-      return;
+    if (!result.canceled && result.assets[0]) {
+      setPhotoUri(result.assets[0].uri);
     }
-
-    setSourcePhoto({
-      uri: asset.uri,
-      base64: asset.base64,
-      mimeType: asset.mimeType ?? 'image/jpeg',
-    });
   };
 
-  const canSave = name.trim().length > 0 && sourcePhoto !== null && !generating;
+  const canSave = name.trim().length > 0 && photoUri !== null;
 
-  const handleSave = async () => {
-    if (!canSave || !sourcePhoto) return;
-
-    setGenerating(true);
-    try {
-      const portrait = await generateHeroPortrait({
-        base64Photo: sourcePhoto.base64,
-        mimeType: sourcePhoto.mimeType,
-      });
-      onSave({
-        name: name.trim(),
-        photoUri: `data:${portrait.mimeType};base64,${portrait.base64}`,
-      });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      Alert.alert('Kouzlo se nepovedlo', message);
-    } finally {
-      setGenerating(false);
-    }
+  const handleSave = () => {
+    if (!canSave) return;
+    onSave({ name: name.trim(), photoUri });
   };
 
   return (
@@ -112,7 +76,6 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
         <View style={styles.topNav}>
           <Pressable
             onPress={onCancel}
-            disabled={generating}
             hitSlop={12}
             style={({ pressed }) => [styles.backBtn, pressed && styles.btnPressed]}
           >
@@ -130,30 +93,30 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
           <ScrollView
+            style={{ flex: 1 }}
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
           >
             <Text style={styles.headline}>Představ svého hrdinu</Text>
             <Text style={styles.body}>
-              Vyber tvář a zvol jméno. Z fotky vykouzlíme portrét rytíře.
+              Vyber tvář a zvol jméno, pod kterým bude hrdina putovat lesy Eldervoodu.
             </Text>
 
             <Pressable
               onPress={pickImage}
-              disabled={generating}
               style={({ pressed }) => [styles.avatarWrap, pressed && styles.btnPressed]}
             >
               <View style={styles.avatarGlow} />
               <View style={styles.avatar}>
-                {sourcePhoto ? (
-                  <Image source={{ uri: sourcePhoto.uri }} style={styles.avatarImage} />
+                {photoUri ? (
+                  <Image source={{ uri: photoUri }} style={styles.avatarImage} />
                 ) : (
                   <MaterialIcons name="add-a-photo" size={44} color={colors.secondary} />
                 )}
               </View>
             </Pressable>
             <Text style={styles.avatarHint}>
-              {sourcePhoto ? 'Klepni pro změnu fotky' : 'Klepni a vyber fotku tváře'}
+              {photoUri ? 'Klepni pro změnu fotky' : 'Klepni a vyber fotku tváře'}
             </Text>
 
             <View style={styles.field}>
@@ -161,7 +124,6 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
               <TextInput
                 value={name}
                 onChangeText={setName}
-                editable={!generating}
                 placeholder="např. Eldar Statečný"
                 placeholderTextColor="rgba(195,200,193,0.45)"
                 style={styles.input}
@@ -171,53 +133,40 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
               />
             </View>
 
-            <View style={styles.actions}>
-              <Pressable
-                onPress={handleSave}
-                disabled={!canSave}
-                style={({ pressed }) => [
-                  styles.primaryBtn,
-                  !canSave && styles.primaryBtnDisabled,
-                  pressed && canSave && styles.btnPressed,
-                ]}
-              >
-                {generating ? (
-                  <>
-                    <ActivityIndicator color={colors.onSecondaryContainer} />
-                    <Text style={styles.primaryBtnText}>KRESLÍME HRDINU…</Text>
-                  </>
-                ) : (
-                  <>
-                    <MaterialIcons
-                      name="auto-awesome"
-                      size={20}
-                      color={canSave ? colors.onSecondaryContainer : 'rgba(52,40,0,0.5)'}
-                    />
-                    <Text
-                      style={[
-                        styles.primaryBtnText,
-                        !canSave && styles.primaryBtnTextDisabled,
-                      ]}
-                    >
-                      VYKOUZLIT HRDINU
-                    </Text>
-                  </>
-                )}
-              </Pressable>
-
-              <Pressable
-                onPress={onCancel}
-                disabled={generating}
-                style={({ pressed }) => [
-                  styles.secondaryBtn,
-                  pressed && !generating && styles.btnPressed,
-                  generating && styles.secondaryBtnDisabled,
-                ]}
-              >
-                <Text style={styles.secondaryBtnText}>Zpět</Text>
-              </Pressable>
-            </View>
           </ScrollView>
+
+          <View style={styles.actions}>
+            <Pressable
+              onPress={handleSave}
+              disabled={!canSave}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                !canSave && styles.primaryBtnDisabled,
+                pressed && canSave && styles.btnPressed,
+              ]}
+            >
+              <MaterialIcons
+                name="check"
+                size={20}
+                color={canSave ? colors.onSecondaryContainer : 'rgba(52,40,0,0.5)'}
+              />
+              <Text
+                style={[
+                  styles.primaryBtnText,
+                  !canSave && styles.primaryBtnTextDisabled,
+                ]}
+              >
+                ULOŽIT HRDINU
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={onCancel}
+              style={({ pressed }) => [styles.secondaryBtn, pressed && styles.btnPressed]}
+            >
+              <Text style={styles.secondaryBtnText}>Zpět</Text>
+            </Pressable>
+          </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </View>
@@ -265,14 +214,14 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 32,
-    paddingBottom: 32,
+    paddingTop: 24,
+    paddingBottom: 16,
     alignItems: 'center',
   },
   headline: {
     fontFamily: 'Newsreader_700Bold',
-    fontSize: 32,
-    lineHeight: 38,
+    fontSize: 28,
+    lineHeight: 34,
     letterSpacing: -0.6,
     color: colors.onBackground,
     textAlign: 'center',
@@ -281,30 +230,30 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   body: {
-    marginTop: 12,
+    marginTop: 8,
     fontFamily: 'BeVietnamPro_400Regular',
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: 14,
+    lineHeight: 20,
     color: colors.onSurfaceVariant,
     textAlign: 'center',
     maxWidth: 320,
   },
   avatarWrap: {
-    marginTop: 36,
-    width: 160,
-    height: 160,
+    marginTop: 20,
+    width: 140,
+    height: 140,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarGlow: {
     ...StyleSheet.absoluteFillObject,
-    borderRadius: 80,
+    borderRadius: 70,
     backgroundColor: 'rgba(233,195,73,0.18)',
   },
   avatar: {
-    width: 132,
-    height: 132,
-    borderRadius: 66,
+    width: 116,
+    height: 116,
+    borderRadius: 58,
     borderWidth: 2,
     borderColor: 'rgba(233,195,73,0.5)',
     backgroundColor: colors.surfaceContainerHighest,
@@ -321,7 +270,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   avatarHint: {
-    marginTop: 12,
+    marginTop: 8,
     fontFamily: 'BeVietnamPro_500Medium',
     fontSize: 13,
     letterSpacing: 0.3,
@@ -329,7 +278,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   field: {
-    marginTop: 32,
+    marginTop: 20,
     width: '100%',
     maxWidth: 320,
   },
@@ -353,10 +302,13 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   actions: {
-    marginTop: 40,
-    width: '100%',
-    maxWidth: 320,
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 16,
     gap: 8,
+    backgroundColor: 'rgba(12,16,15,0.92)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(120,53,15,0.25)',
   },
   primaryBtn: {
     flexDirection: 'row',
@@ -399,9 +351,6 @@ const styles = StyleSheet.create({
     borderColor: colors.outlineVariant,
     borderRadius: 4,
     paddingVertical: 16,
-  },
-  secondaryBtnDisabled: {
-    opacity: 0.4,
   },
   secondaryBtnText: {
     fontFamily: 'BeVietnamPro_600SemiBold',
