@@ -19,8 +19,8 @@ type Props = {
 
 export function WelcomeScreen({ hero, onIntroduceHero, onStartGame }: Props) {
   const greeting = hero.name
-    ? `Vítej ${hero.name}, jaké bude další dobrodružství?`
-    : 'Vítej hrdino, jaké bude další dobrodružství?';
+    ? `Vítejte ${hero.name}, jaké bude další dobrodružství?`
+    : 'Vítejte hrdinové, jaké bude další dobrodružství?';
 
   return (
     <View style={styles.root}>
@@ -63,7 +63,7 @@ export function WelcomeScreen({ hero, onIntroduceHero, onStartGame }: Props) {
         <View style={styles.bottomBlock}>
           <Text style={styles.headline}>{greeting}</Text>
           <Text style={styles.body}>
-            Tvé kroky rezonují prastarým lesem. Osud Eldervoodu čeká na tvé rozhodnutí.
+            Vaše kroky rezonují prastarým lesem. Osud Eldervoodu čeká na vaše rozhodnutí.
           </Text>
 
           <View style={styles.actions}>

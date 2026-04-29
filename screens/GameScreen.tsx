@@ -81,10 +81,10 @@ function EndScreen({ heroName, onExit }: { heroName: string; onExit: () => void 
         <View style={styles.endBody}>
           <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
           <Text style={styles.endHeadline}>
-            {heroName ? `${heroName}, máš tři kousky jiskřičky!` : 'Máš tři kousky jiskřičky!'}
+            {heroName ? `${heroName}, jiskřička je celá!` : 'Jiskřička je celá!'}
           </Text>
           <Text style={styles.endBodyText}>
-            Tady končí dnešní ukázka. Dál čekají tulipány, slunečnice, vistérie, kouřový drak a hřiště — pokračování příště.
+            Všech sedm kousků zase svítí. Jiskřička teď může znovu rozsvítit radost všude kolem. Děkujeme, malí dobrodruzi.
           </Text>
         </View>
         <View style={styles.endActions}>

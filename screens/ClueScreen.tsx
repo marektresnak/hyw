@@ -83,10 +83,10 @@ export function ClueScreen({
 
   const distanceLabel =
     status === 'denied'
-      ? 'Bez polohy to nepoznáme. Otevři nastavení a povol polohu.'
+      ? 'Bez polohy to nepoznáme. Otevřete nastavení a povolte polohu.'
       : status === 'init' || distance == null
-      ? 'Hledám tvoji polohu…'
-      : `Asi ${Math.round(distance)} m daleko. Až tam dojdeš, postavička vyskočí sama.`;
+      ? 'Hledám vaši polohu…'
+      : `Asi ${Math.round(distance)} m daleko. Až tam dojdete, postavička vyskočí sama.`;
 
   return (
     <View style={styles.root}>
