@@ -97,9 +97,9 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
           >
-            <Text style={styles.headline}>Představ svého hrdinu</Text>
+            <Text style={styles.headline}>Představte svého hrdinu</Text>
             <Text style={styles.body}>
-              Vyber tvář a zvol jméno, pod kterým bude hrdina putovat lesy Eldervoodu.
+              Vyberte tvář a zvolte jméno, pod kterým bude hrdina putovat lesy Eldervoodu.
             </Text>
 
             <Pressable
@@ -116,7 +116,7 @@ export function HeroSetupScreen({ hero, onSave, onCancel }: Props) {
               </View>
             </Pressable>
             <Text style={styles.avatarHint}>
-              {photoUri ? 'Klepni pro změnu fotky' : 'Klepni a vyber fotku tváře'}
+              {photoUri ? 'Klepněte pro změnu fotky' : 'Klepněte a vyberte fotku tváře'}
             </Text>
 
             <View style={styles.field}>

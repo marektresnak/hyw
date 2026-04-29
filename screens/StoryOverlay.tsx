@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import {
   Animated,
@@ -16,6 +17,7 @@ type Props = {
   stop: Stop;
   hero: Hero;
   isLastStop: boolean;
+  backgroundUri?: string;
   onContinue: () => void;
   onInteractionConfirmed: () => void;
 };
@@ -24,6 +26,7 @@ export function StoryOverlay({
   stop,
   hero,
   isLastStop,
+  backgroundUri,
   onContinue,
   onInteractionConfirmed,
 }: Props) {
@@ -54,35 +57,68 @@ export function StoryOverlay({
     }
   };
 
+  const background = (
+    <>
+      {backgroundUri && (
+        <Image
+          source={{ uri: backgroundUri }}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+        />
+      )}
+      <LinearGradient
+        colors={['rgba(0,0,0,0.35)', 'rgba(0,0,0,0.15)', 'rgba(0,0,0,0.85)']}
+        locations={[0, 0.4, 1]}
+        style={StyleSheet.absoluteFill}
+        pointerEvents="none"
+      />
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.jiskrickaFloat, { opacity }]}
+      >
+        <View style={styles.characterGlow} />
+        <View style={styles.character}>
+          <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
+        </View>
+        <Text style={styles.characterName}>Jiskřička</Text>
+      </Animated.View>
+    </>
+  );
+
   if (interactionDone) {
     return (
-      <Animated.View style={[styles.wrap, { opacity }]} pointerEvents="box-none">
-        <Text style={styles.sparkleEarnedFloat}>+1 kousek jiskřičky ✨</Text>
-        <Pressable
-          onPress={onContinue}
-          style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
-        >
-          <MaterialIcons
-            name={isLastStop ? 'flag' : 'arrow-forward'}
-            size={18}
-            color={colors.onSecondaryContainer}
-          />
-          <Text style={styles.primaryBtnText}>
-            {isLastStop ? 'DOKONČIT DEMO' : 'NAJÍT DALŠÍ'}
-          </Text>
-        </Pressable>
-      </Animated.View>
+      <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+        {background}
+        <Animated.View style={[styles.wrap, { opacity }]} pointerEvents="box-none">
+          <Text style={styles.sparkleEarnedFloat}>+1 kousek jiskřičky ✨</Text>
+          <Pressable
+            onPress={onContinue}
+            style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
+          >
+            <MaterialIcons
+              name={isLastStop ? 'flag' : 'arrow-forward'}
+              size={18}
+              color={colors.onSecondaryContainer}
+            />
+            <Text style={styles.primaryBtnText}>
+              {isLastStop ? 'DOKONČIT DEMO' : 'NAJÍT DALŠÍ'}
+            </Text>
+          </Pressable>
+        </Animated.View>
+      </View>
     );
   }
 
   return (
-    <Animated.View
-      style={[
-        styles.wrap,
-        { opacity, transform: [{ translateY: translate }] },
-      ]}
-    >
-      <View style={styles.heroBadgeRow}>
+    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+      {background}
+      <Animated.View
+        style={[
+          styles.wrap,
+          { opacity, transform: [{ translateY: translate }] },
+        ]}
+      >
+        <View style={styles.heroBadgeRow}>
         <View style={styles.heroBadge}>
           {hero.photoUri ? (
             <Image source={{ uri: hero.photoUri }} style={styles.heroAvatar} />
@@ -91,7 +127,7 @@ export function StoryOverlay({
           )}
         </View>
         <Text style={styles.heroBadgeText}>
-          {hero.name ? `${hero.name} naslouchá` : 'Posloucháš…'}
+          {hero.name ? `${hero.name} naslouchá` : 'Posloucháte…'}
         </Text>
       </View>
 
@@ -118,7 +154,7 @@ export function StoryOverlay({
             onPress={onTapNextParagraph}
             style={({ pressed }) => [styles.tapHint, pressed && styles.btnPressed]}
           >
-            <Text style={styles.tapHintText}>Klepni pro pokračování</Text>
+            <Text style={styles.tapHintText}>Klepněte pro pokračování</Text>
             <MaterialIcons name="arrow-forward" size={16} color={colors.amber400} />
           </Pressable>
         ) : (
@@ -142,6 +178,7 @@ export function StoryOverlay({
         )}
       </View>
     </Animated.View>
+    </View>
   );
 }
 
@@ -153,6 +190,47 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingHorizontal: 16,
     paddingBottom: 24,
+  },
+  jiskrickaFloat: {
+    position: 'absolute',
+    top: '18%',
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  characterGlow: {
+    position: 'absolute',
+    top: -20,
+    left: '50%',
+    width: 160,
+    height: 160,
+    marginLeft: -80,
+    borderRadius: 80,
+    backgroundColor: 'rgba(233,195,73,0.25)',
+  },
+  character: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: 'rgba(233,195,73,0.7)',
+    backgroundColor: 'rgba(12,16,15,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.secondary,
+    shadowOpacity: 0.7,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  characterName: {
+    marginTop: 12,
+    fontFamily: 'Newsreader_700Bold',
+    fontSize: 18,
+    letterSpacing: 2,
+    fontStyle: 'italic',
+    color: colors.amber400,
+    textShadowColor: 'rgba(0,0,0,0.7)',
+    textShadowRadius: 8,
   },
   heroBadgeRow: {
     flexDirection: 'row',

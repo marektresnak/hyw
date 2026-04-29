@@ -34,6 +34,8 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   const [storyVisible, setStoryVisible] = useState(false);
   const [steadyProgress, setSteadyProgress] = useState(0);
   const [selectedLens, setSelectedLens] = useState<string | undefined>();
+  const [frozenFrameUri, setFrozenFrameUri] = useState<string | undefined>();
+  const cameraRef = useRef<CameraView>(null);
   const steadyStartRef = useRef<number | null>(null);
   const triggeredRef = useRef(false);
   const characterAnim = useRef(new Animated.Value(0)).current;
@@ -71,6 +73,12 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   }, [permission?.granted]);
 
   const showCharacter = () => {
+    cameraRef.current
+      ?.takePictureAsync({ skipProcessing: true, shutterSound: false })
+      .then((photo) => {
+        if (photo?.uri) setFrozenFrameUri(photo.uri);
+      })
+      .catch(() => {});
     Animated.sequence([
       Animated.timing(characterAnim, {
         toValue: 1.1,
@@ -178,6 +186,7 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
                 <View style={styles.glassHalo} pointerEvents="none" />
                 <View style={styles.glassFrame}>
                   <CameraView
+                    ref={cameraRef}
                     style={StyleSheet.absoluteFill}
                     facing="back"
                     selectedLens={selectedLens}
@@ -266,7 +275,7 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
             <View style={styles.hint}>
               <Text style={styles.hintHeadline}>Skrz tohle sklíčko je Jiskřička vidět</Text>
               <Text style={styles.hintBody}>
-                Pomalu se rozhlédni a chvilku stůj. Sama vykoukne.
+                Pomalu se rozhlédněte a chvilku stůjte. Sama vykoukne.
               </Text>
               <View style={styles.progressTrack}>
                 <View
@@ -292,6 +301,7 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
           stop={stop}
           hero={hero}
           isLastStop={isLastStop}
+          backgroundUri={frozenFrameUri}
           onContinue={onContinue}
           onInteractionConfirmed={celebrate}
         />
@@ -329,7 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   glassFrameOuter: {
-    flex: 1,
+    aspectRatio: 0.78,
     borderRadius: 36,
     shadowColor: colors.secondary,
     shadowOpacity: 0.7,
