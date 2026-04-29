@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import {
-  ActivityIndicator,
-  Alert,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -34,44 +32,61 @@ export function ClueScreen({
   onArrived,
   onExit,
 }: Props) {
-  const [checking, setChecking] = useState(false);
-  const [hint, setHint] = useState<string | null>(null);
+  const [status, setStatus] = useState<'init' | 'denied' | 'searching' | 'tracking'>(
+    'init',
+  );
+  const [distance, setDistance] = useState<number | null>(null);
+  const arrivedRef = useRef(false);
 
-  const checkLocation = async () => {
-    setChecking(true);
-    setHint(null);
-    try {
+  useEffect(() => {
+    let cancelled = false;
+    let sub: Location.LocationSubscription | null = null;
+
+    (async () => {
       const perm = await Location.requestForegroundPermissionsAsync();
+      if (cancelled) return;
       if (!perm.granted) {
-        Alert.alert(
-          'Potřebujeme polohu',
-          'Bez povolení polohy nezvládneme poznat, že jsi na zastávce.',
-        );
-        setChecking(false);
+        setStatus('denied');
         return;
       }
-      const pos = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-      });
-      const dist = distanceMeters(
-        pos.coords.latitude,
-        pos.coords.longitude,
-        stop.lat,
-        stop.lon,
+      setStatus('searching');
+      sub = await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.High,
+          timeInterval: 1500,
+          distanceInterval: 2,
+        },
+        (pos) => {
+          if (arrivedRef.current) return;
+          const d = distanceMeters(
+            pos.coords.latitude,
+            pos.coords.longitude,
+            stop.lat,
+            stop.lon,
+          );
+          setDistance(d);
+          setStatus('tracking');
+          if (d <= ARRIVAL_RADIUS_METERS) {
+            arrivedRef.current = true;
+            sub?.remove();
+            onArrived();
+          }
+        },
       );
-      if (dist <= ARRIVAL_RADIUS_METERS) {
-        onArrived();
-      } else {
-        setHint(
-          `Ještě to není ono. Jsi asi ${Math.round(dist)} m daleko. Hledej dál!`,
-        );
-      }
-    } catch (err) {
-      setHint('Hmm, polohu se nepodařilo získat. Zkus to ještě jednou.');
-    } finally {
-      setChecking(false);
-    }
-  };
+    })();
+
+    return () => {
+      cancelled = true;
+      sub?.remove();
+    };
+  }, [stop.lat, stop.lon, onArrived]);
+
+  const distanceLabel =
+    status === 'denied'
+      ? 'Bez polohy to nepoznáme. Otevři nastavení a povol polohu.'
+      : status === 'init' || distance == null
+      ? 'Hledám tvoji polohu…'
+      : `Asi ${Math.round(distance)} m daleko. Až tam dojdeš, postavička vyskočí sama.`;
 
   return (
     <View style={styles.root}>
@@ -120,32 +135,17 @@ export function ClueScreen({
             <Text style={styles.clueText}>{stop.introClue}</Text>
           </View>
 
-          {hint && <Text style={styles.hint}>{hint}</Text>}
+          <View style={styles.statusRow}>
+            <MaterialIcons
+              name={status === 'denied' ? 'location-off' : 'my-location'}
+              size={18}
+              color={status === 'denied' ? colors.amber400 : colors.onSurfaceVariant}
+            />
+            <Text style={styles.statusText}>{distanceLabel}</Text>
+          </View>
         </View>
 
         <View style={styles.actions}>
-          <Pressable
-            onPress={checkLocation}
-            disabled={checking}
-            style={({ pressed }) => [
-              styles.primaryBtn,
-              checking && styles.primaryBtnDisabled,
-              pressed && !checking && styles.btnPressed,
-            ]}
-          >
-            {checking ? (
-              <ActivityIndicator color={colors.onSecondaryContainer} />
-            ) : (
-              <MaterialIcons
-                name="my-location"
-                size={20}
-                color={colors.onSecondaryContainer}
-              />
-            )}
-            <Text style={styles.primaryBtnText}>
-              {checking ? 'KONTROLUJI…' : 'JSEM NA MÍSTĚ'}
-            </Text>
-          </Pressable>
           <Pressable
             onPress={onArrived}
             style={({ pressed }) => [styles.skipBtn, pressed && styles.btnPressed]}
@@ -224,45 +224,25 @@ const styles = StyleSheet.create({
     color: colors.onBackground,
     textAlign: 'center',
   },
-  hint: {
+  statusRow: {
     marginTop: 20,
-    fontFamily: 'BeVietnamPro_500Medium',
-    fontSize: 14,
-    lineHeight: 20,
-    color: colors.amber400,
-    textAlign: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     maxWidth: 320,
+  },
+  statusText: {
+    fontFamily: 'BeVietnamPro_500Medium',
+    fontSize: 13,
+    lineHeight: 18,
+    color: colors.onSurfaceVariant,
+    flexShrink: 1,
   },
   actions: {
     paddingHorizontal: 24,
     paddingBottom: 16,
     paddingTop: 8,
     gap: 8,
-  },
-  primaryBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    backgroundColor: colors.secondaryContainer,
-    borderWidth: 2,
-    borderColor: colors.secondary,
-    borderRadius: 4,
-    paddingVertical: 18,
-    shadowColor: '#000',
-    shadowOpacity: 0.6,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 8,
-  },
-  primaryBtnDisabled: {
-    backgroundColor: 'rgba(175,141,17,0.6)',
-  },
-  primaryBtnText: {
-    fontFamily: 'BeVietnamPro_600SemiBold',
-    fontSize: 14,
-    letterSpacing: 2.5,
-    color: colors.onSecondaryContainer,
   },
   skipBtn: {
     alignItems: 'center',

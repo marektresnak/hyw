@@ -33,11 +33,15 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   const [permission, requestPermission] = useCameraPermissions();
   const [storyVisible, setStoryVisible] = useState(false);
   const [steadyProgress, setSteadyProgress] = useState(0);
+  const [selectedLens, setSelectedLens] = useState<string | undefined>();
   const steadyStartRef = useRef<number | null>(null);
   const triggeredRef = useRef(false);
   const characterAnim = useRef(new Animated.Value(0)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
-  const chime = useAudioPlayer(require('../assets/chime.mp3'));
+  const chimeTinkerbell = useAudioPlayer(require('../assets/chime-tinkerbell.mp3'));
+  const chimeBellstrike = useAudioPlayer(require('../assets/chime-bellstrike.mp3'));
+  // A/B per-stop alternation: even stops play tinkerbell, odd play bellstrike.
+  const chime = stop.id % 2 === 0 ? chimeTinkerbell : chimeBellstrike;
 
   useEffect(() => {
     if (!permission?.granted) return;
@@ -138,7 +142,22 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
 
   return (
     <View style={styles.root}>
-      <CameraView style={StyleSheet.absoluteFill} facing="back" />
+      <CameraView
+        style={StyleSheet.absoluteFill}
+        facing="back"
+        selectedLens={selectedLens}
+        onAvailableLensesChanged={(e: any) => {
+          if (selectedLens) return;
+          const lenses: string[] | undefined = e?.lenses ?? e?.nativeEvent?.lenses;
+          if (!lenses?.length) return;
+          // Prefer the standard wide-angle lens; avoid ultra-wide and telephoto.
+          const normal =
+            lenses.find((l) => /wide/i.test(l) && !/ultra/i.test(l)) ??
+            lenses.find((l) => !/(ultra|telephoto)/i.test(l)) ??
+            lenses[0];
+          if (normal) setSelectedLens(normal);
+        }}
+      />
       <LinearGradient
         colors={['rgba(0,0,0,0.5)', 'transparent', 'rgba(0,0,0,0.6)']}
         locations={[0, 0.4, 1]}
