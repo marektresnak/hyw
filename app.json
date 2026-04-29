@@ -27,7 +27,13 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Potoulky potřebují přístup k fotkám, abys mohl nastavit tvář svého hrdiny."
+        }
+      ]
     ]
   }
 }
