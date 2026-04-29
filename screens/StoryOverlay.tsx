@@ -17,9 +17,16 @@ type Props = {
   hero: Hero;
   isLastStop: boolean;
   onContinue: () => void;
+  onInteractionConfirmed: () => void;
 };
 
-export function StoryOverlay({ stop, hero, isLastStop, onContinue }: Props) {
+export function StoryOverlay({
+  stop,
+  hero,
+  isLastStop,
+  onContinue,
+  onInteractionConfirmed,
+}: Props) {
   const [paragraphCount, setParagraphCount] = useState(1);
   const [interactionDone, setInteractionDone] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
@@ -97,7 +104,10 @@ export function StoryOverlay({ stop, hero, isLastStop, onContinue }: Props) {
           <View style={styles.interactionBlock}>
             <Text style={styles.interactionPrompt}>{stop.interactionPrompt}</Text>
             <Pressable
-              onPress={() => setInteractionDone(true)}
+              onPress={() => {
+                setInteractionDone(true);
+                onInteractionConfirmed();
+              }}
               style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
             >
               <MaterialIcons

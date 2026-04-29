@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Gyroscope } from 'expo-sensors';
+import { useAudioPlayer } from 'expo-audio';
 import {
   Animated,
   Easing,
@@ -35,6 +36,8 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   const steadyStartRef = useRef<number | null>(null);
   const triggeredRef = useRef(false);
   const characterAnim = useRef(new Animated.Value(0)).current;
+  const glowAnim = useRef(new Animated.Value(0)).current;
+  const chime = useAudioPlayer(require('../assets/chime.mp3'));
 
   useEffect(() => {
     if (!permission?.granted) return;
@@ -82,6 +85,25 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
     if (triggeredRef.current) return;
     triggeredRef.current = true;
     showCharacter();
+  };
+
+  const celebrate = () => {
+    chime.seekTo(0).finally(() => chime.play());
+    glowAnim.setValue(0);
+    Animated.sequence([
+      Animated.timing(glowAnim, {
+        toValue: 1,
+        duration: 350,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+      Animated.timing(glowAnim, {
+        toValue: 0.3,
+        duration: 900,
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   if (!permission) {
@@ -180,10 +202,40 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
             },
           ]}
         >
+          <Animated.View
+            style={[
+              styles.burstGlow,
+              {
+                opacity: glowAnim,
+                transform: [
+                  {
+                    scale: glowAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0.6, 1.8],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          />
           <View style={styles.characterGlow} />
-          <View style={styles.character}>
+          <Animated.View
+            style={[
+              styles.character,
+              {
+                shadowOpacity: glowAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0.7, 1],
+                }),
+                shadowRadius: glowAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [30, 60],
+                }),
+              },
+            ]}
+          >
             <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
-          </View>
+          </Animated.View>
           <Text style={styles.characterName}>Jiskřička</Text>
         </Animated.View>
       </SafeAreaView>
@@ -194,6 +246,7 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
           hero={hero}
           isLastStop={isLastStop}
           onContinue={onContinue}
+          onInteractionConfirmed={celebrate}
         />
       )}
     </View>
@@ -273,6 +326,15 @@ const styles = StyleSheet.create({
     bottom: -20,
     borderRadius: 90,
     backgroundColor: 'rgba(233,195,73,0.25)',
+  },
+  burstGlow: {
+    position: 'absolute',
+    top: -60,
+    left: -60,
+    right: -60,
+    bottom: -60,
+    borderRadius: 130,
+    backgroundColor: 'rgba(255,225,140,0.55)',
   },
   character: {
     width: 120,
