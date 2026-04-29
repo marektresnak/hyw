@@ -49,9 +49,6 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   useEffect(() => {
     if (!storyVisible || !stop.voice) return;
     voice.seekTo(0).finally(() => voice.play());
-    return () => {
-      voice.pause();
-    };
   }, [storyVisible, stop.voice]);
 
   useEffect(() => {
@@ -275,7 +272,6 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
                     >
                       <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
                     </Animated.View>
-                    <Text style={styles.characterName}>Jiskřička</Text>
                   </Animated.View>
                 </View>
               </View>
@@ -457,16 +453,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.7,
     shadowRadius: 30,
     shadowOffset: { width: 0, height: 0 },
-  },
-  characterName: {
-    marginTop: 12,
-    fontFamily: 'Newsreader_700Bold',
-    fontSize: 18,
-    letterSpacing: 2,
-    fontStyle: 'italic',
-    color: colors.amber400,
-    textShadowColor: 'rgba(0,0,0,0.7)',
-    textShadowRadius: 8,
   },
   permissionWrap: {
     flex: 1,

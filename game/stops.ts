@@ -46,6 +46,7 @@ export const STOPS: Stop[] = [
     lat: 49.188697,
     lon: 16.616597,
     image: require('../assets/photos/hmyzi-domecek.jpg'),
+    voice: require('../sounds/2.mp3'),
   },
   {
     id: 2,
@@ -63,6 +64,7 @@ export const STOPS: Stop[] = [
     lat: 49.189145,
     lon: 16.616853,
     image: require('../assets/photos/kola.jpg'),
+    voice: require('../sounds/3.mp3'),
   },
   {
     id: 3,
@@ -80,6 +82,7 @@ export const STOPS: Stop[] = [
     lat: 49.189322,
     lon: 16.616883,
     image: require('../assets/photos/kalisky.jpg'),
+    voice: require('../sounds/4.mp3'),
   },
   {
     id: 4,
@@ -97,6 +100,7 @@ export const STOPS: Stop[] = [
     lat: 49.190058,
     lon: 16.617,
     image: require('../assets/photos/fialove-kvety.jpg'),
+    voice: require('../sounds/5.mp3'),
   },
   {
     id: 5,
@@ -114,6 +118,7 @@ export const STOPS: Stop[] = [
     lat: 49.190262,
     lon: 16.617858,
     image: require('../assets/photos/drak.jpg'),
+    voice: require('../sounds/6.mp3'),
   },
   {
     id: 6,
@@ -132,6 +137,7 @@ export const STOPS: Stop[] = [
     lat: 49.189675,
     lon: 16.618145,
     image: require('../assets/photos/hriste.jpg'),
+    voice: require('../sounds/7.mp3'),
   },
 ];
 
