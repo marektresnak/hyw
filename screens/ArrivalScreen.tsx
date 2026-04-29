@@ -142,28 +142,6 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
 
   return (
     <View style={styles.root}>
-      <CameraView
-        style={StyleSheet.absoluteFill}
-        facing="back"
-        selectedLens={selectedLens}
-        onAvailableLensesChanged={(e: any) => {
-          if (selectedLens) return;
-          const lenses: string[] | undefined = e?.lenses ?? e?.nativeEvent?.lenses;
-          if (!lenses?.length) return;
-          // Prefer the standard wide-angle lens; avoid ultra-wide and telephoto.
-          const normal =
-            lenses.find((l) => /wide/i.test(l) && !/ultra/i.test(l)) ??
-            lenses.find((l) => !/(ultra|telephoto)/i.test(l)) ??
-            lenses[0];
-          if (normal) setSelectedLens(normal);
-        }}
-      />
-      <LinearGradient
-        colors={['rgba(0,0,0,0.5)', 'transparent', 'rgba(0,0,0,0.6)']}
-        locations={[0, 0.4, 1]}
-        style={StyleSheet.absoluteFill}
-      />
-
       <SafeAreaView style={styles.safeArea} pointerEvents="box-none">
         <View style={styles.topNav}>
           <Pressable
@@ -181,82 +159,132 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
         </View>
 
         {!storyVisible && (
-          <View style={styles.centerHint}>
-            <Text style={styles.hintHeadline}>Rozhlédni se a chvilku stůj</Text>
-            <Text style={styles.hintBody}>
-              Klidně namiř foťák kolem sebe. Až se obraz ustálí, něco se stane…
-            </Text>
-            <View style={styles.progressTrack}>
-              <View
-                style={[
-                  styles.progressFill,
-                  { width: `${Math.round(steadyProgress * 100)}%` },
-                ]}
-              />
-            </View>
-            <Pressable
-              onPress={handleManualTrigger}
-              style={({ pressed }) => [styles.skipBtn, pressed && styles.btnPressed]}
-            >
-              <Text style={styles.skipBtnText}>Vyvolat postavičku ručně</Text>
-            </Pressable>
-          </View>
-        )}
+          <>
+            <View style={styles.glassStage}>
+              <View style={[styles.sparkle, styles.sparkleTL]}>
+                <MaterialIcons name="auto-awesome" size={18} color={colors.amber400} />
+              </View>
+              <View style={[styles.sparkle, styles.sparkleTR]}>
+                <MaterialIcons name="auto-awesome" size={12} color={colors.amber400} />
+              </View>
+              <View style={[styles.sparkle, styles.sparkleBL]}>
+                <MaterialIcons name="auto-awesome" size={14} color={colors.amber400} />
+              </View>
+              <View style={[styles.sparkle, styles.sparkleBR]}>
+                <MaterialIcons name="auto-awesome" size={20} color={colors.amber400} />
+              </View>
 
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            styles.characterWrap,
-            {
-              opacity: characterAnim,
-              transform: [
-                {
-                  translateY: characterAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [40, 0],
-                  }),
-                },
-                { scale: characterAnim },
-              ],
-            },
-          ]}
-        >
-          <Animated.View
-            style={[
-              styles.burstGlow,
-              {
-                opacity: glowAnim,
-                transform: [
-                  {
-                    scale: glowAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.6, 1.8],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          />
-          <View style={styles.characterGlow} />
-          <Animated.View
-            style={[
-              styles.character,
-              {
-                shadowOpacity: glowAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0.7, 1],
-                }),
-                shadowRadius: glowAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [30, 60],
-                }),
-              },
-            ]}
-          >
-            <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
-          </Animated.View>
-          <Text style={styles.characterName}>Jiskřička</Text>
-        </Animated.View>
+              <View style={styles.glassFrameOuter}>
+                <View style={styles.glassHalo} pointerEvents="none" />
+                <View style={styles.glassFrame}>
+                  <CameraView
+                    style={StyleSheet.absoluteFill}
+                    facing="back"
+                    selectedLens={selectedLens}
+                    onAvailableLensesChanged={(e: any) => {
+                      if (selectedLens) return;
+                      const lenses: string[] | undefined = e?.lenses ?? e?.nativeEvent?.lenses;
+                      if (!lenses?.length) return;
+                      // Prefer the standard wide-angle lens; avoid ultra-wide and telephoto.
+                      const normal =
+                        lenses.find((l) => /wide/i.test(l) && !/ultra/i.test(l)) ??
+                        lenses.find((l) => !/(ultra|telephoto)/i.test(l)) ??
+                        lenses[0];
+                      if (normal) setSelectedLens(normal);
+                    }}
+                  />
+                  <LinearGradient
+                    colors={[
+                      'rgba(255,225,140,0.18)',
+                      'transparent',
+                      'transparent',
+                      'rgba(0,0,0,0.35)',
+                    ]}
+                    locations={[0, 0.25, 0.7, 1]}
+                    style={StyleSheet.absoluteFill}
+                    pointerEvents="none"
+                  />
+
+                  <Animated.View
+                    pointerEvents="none"
+                    style={[
+                      styles.characterWrap,
+                      {
+                        opacity: characterAnim,
+                        transform: [
+                          {
+                            translateY: characterAnim.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [40, 0],
+                            }),
+                          },
+                          { scale: characterAnim },
+                        ],
+                      },
+                    ]}
+                  >
+                    <Animated.View
+                      style={[
+                        styles.burstGlow,
+                        {
+                          opacity: glowAnim,
+                          transform: [
+                            {
+                              scale: glowAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [0.6, 1.8],
+                              }),
+                            },
+                          ],
+                        },
+                      ]}
+                    />
+                    <View style={styles.characterGlow} />
+                    <Animated.View
+                      style={[
+                        styles.character,
+                        {
+                          shadowOpacity: glowAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0.7, 1],
+                          }),
+                          shadowRadius: glowAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [30, 60],
+                          }),
+                        },
+                      ]}
+                    >
+                      <MaterialIcons name="auto-awesome" size={64} color={colors.secondary} />
+                    </Animated.View>
+                    <Text style={styles.characterName}>Jiskřička</Text>
+                  </Animated.View>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.hint}>
+              <Text style={styles.hintHeadline}>Skrz tohle sklíčko je Jiskřička vidět</Text>
+              <Text style={styles.hintBody}>
+                Pomalu se rozhlédni a chvilku stůj. Sama vykoukne.
+              </Text>
+              <View style={styles.progressTrack}>
+                <View
+                  style={[
+                    styles.progressFill,
+                    { width: `${Math.round(steadyProgress * 100)}%` },
+                  ]}
+                />
+              </View>
+              <Pressable
+                onPress={handleManualTrigger}
+                style={({ pressed }) => [styles.skipBtn, pressed && styles.btnPressed]}
+              >
+                <Text style={styles.skipBtnText}>Vyvolat Jiskřičku ručně</Text>
+              </Pressable>
+            </View>
+          </>
+        )}
       </SafeAreaView>
 
       {storyVisible && (
@@ -292,13 +320,54 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     fontStyle: 'italic',
   },
-  centerHint: {
+  glassStage: {
     flex: 1,
+    paddingHorizontal: 28,
+    paddingTop: 8,
+    paddingBottom: 12,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  glassFrameOuter: {
+    flex: 1,
+    borderRadius: 36,
+    shadowColor: colors.secondary,
+    shadowOpacity: 0.7,
+    shadowRadius: 36,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 24,
+  },
+  glassFrame: {
+    flex: 1,
+    borderRadius: 36,
+    borderWidth: 2,
+    borderColor: 'rgba(251,191,36,0.7)',
+    overflow: 'hidden',
+    backgroundColor: '#000',
+  },
+  glassHalo: {
+    position: 'absolute',
+    top: -18,
+    left: -18,
+    right: -18,
+    bottom: -18,
+    borderRadius: 54,
+    backgroundColor: 'rgba(233,195,73,0.12)',
+  },
+  sparkle: {
+    position: 'absolute',
+    opacity: 0.85,
+  },
+  sparkleTL: { top: 6, left: 8 },
+  sparkleTR: { top: 36, right: 6 },
+  sparkleBL: { bottom: 40, left: 4 },
+  sparkleBR: { bottom: 8, right: 10 },
+  hint: {
     paddingHorizontal: 24,
+    paddingBottom: 24,
+    paddingTop: 8,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 40,
-    gap: 12,
+    gap: 10,
   },
   hintHeadline: {
     fontFamily: 'Newsreader_700Bold',
@@ -333,8 +402,9 @@ const styles = StyleSheet.create({
   },
   characterWrap: {
     position: 'absolute',
-    top: '28%',
-    alignSelf: 'center',
+    top: '22%',
+    left: 0,
+    right: 0,
     alignItems: 'center',
   },
   characterGlow: {
