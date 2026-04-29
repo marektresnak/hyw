@@ -4,11 +4,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {
   ImageBackground,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import {
   useFonts,
   Newsreader_600SemiBold,
@@ -50,7 +50,8 @@ export default function App() {
   }
 
   return (
-    <View style={styles.root}>
+    <SafeAreaProvider>
+      <View style={styles.root}>
       <ImageBackground
         source={{ uri: HERO_IMAGE }}
         style={StyleSheet.absoluteFill}
@@ -79,7 +80,9 @@ export default function App() {
               <MaterialIcons name="auto-awesome" size={48} color={colors.secondary} />
             </View>
           </View>
+        </View>
 
+        <View style={styles.bottomBlock}>
           <Text style={styles.headline}>Vítej hrdino, jaké bude další dobrodružství?</Text>
           <Text style={styles.body}>
             Tvé kroky rezonují prastarým lesem. Osud Eldervoodu čeká na tvé rozhodnutí.
@@ -99,8 +102,9 @@ export default function App() {
         </View>
       </SafeAreaView>
 
-      <StatusBar style="light" />
-    </View>
+        <StatusBar style="light" />
+      </View>
+    </SafeAreaProvider>
   );
 }
 
@@ -144,16 +148,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   artifactWrap: {
-    marginBottom: 40,
+    width: 130,
+    height: 130,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  bottomBlock: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+  },
   artifactGlow: {
-    position: 'absolute',
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: 'rgba(233,195,73,0.15)',
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 65,
+    backgroundColor: 'rgba(233,195,73,0.18)',
   },
   artifact: {
     width: 96,
