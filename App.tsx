@@ -16,6 +16,7 @@ import { colors, Hero } from './theme';
 import { WelcomeScreen } from './screens/WelcomeScreen';
 import { HeroSetupScreen } from './screens/HeroSetupScreen';
 import { GameScreen } from './screens/GameScreen';
+import { MapOverlay } from './screens/MapOverlay';
 
 type Screen = 'welcome' | 'heroSetup' | 'game';
 
@@ -57,6 +58,7 @@ export default function App() {
       {screen === 'game' && (
         <GameScreen hero={hero} onExit={() => setScreen('welcome')} />
       )}
+      <MapOverlay />
       <StatusBar style="light" />
     </SafeAreaProvider>
   );
