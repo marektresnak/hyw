@@ -10,6 +10,7 @@ export type Stop = {
   lat: number;
   lon: number;
   image: ImageSourcePropType;
+  voice?: number;
 };
 
 export const STOPS: Stop[] = [
@@ -28,6 +29,7 @@ export const STOPS: Stop[] = [
     lat: 49.188603,
     lon: 16.617013,
     image: require('../assets/photos/borovice.jpg'),
+    voice: require('../sounds/1.mp3'),
   },
   {
     id: 1,

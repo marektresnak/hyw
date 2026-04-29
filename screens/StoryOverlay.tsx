@@ -30,7 +30,6 @@ export function StoryOverlay({
   onContinue,
   onInteractionConfirmed,
 }: Props) {
-  const [paragraphCount, setParagraphCount] = useState(1);
   const [interactionDone, setInteractionDone] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
   const translate = useRef(new Animated.Value(40)).current;
@@ -48,14 +47,6 @@ export function StoryOverlay({
       }),
     ]).start();
   }, []);
-
-  const allShown = paragraphCount >= stop.storyParagraphs.length;
-
-  const onTapNextParagraph = () => {
-    if (!allShown) {
-      setParagraphCount((n) => n + 1);
-    }
-  };
 
   const background = (
     <>
@@ -142,40 +133,30 @@ export function StoryOverlay({
           contentContainerStyle={{ paddingBottom: 8 }}
           showsVerticalScrollIndicator={false}
         >
-          {stop.storyParagraphs.slice(0, paragraphCount).map((p, idx) => (
+          {stop.storyParagraphs.map((p, idx) => (
             <Text key={idx} style={[styles.paragraph, idx > 0 && { marginTop: 12 }]}>
               {p}
             </Text>
           ))}
         </ScrollView>
 
-        {!allShown ? (
+        <View style={styles.interactionBlock}>
+          <Text style={styles.interactionPrompt}>{stop.interactionPrompt}</Text>
           <Pressable
-            onPress={onTapNextParagraph}
-            style={({ pressed }) => [styles.tapHint, pressed && styles.btnPressed]}
+            onPress={() => {
+              setInteractionDone(true);
+              onInteractionConfirmed();
+            }}
+            style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
           >
-            <Text style={styles.tapHintText}>Klepněte pro pokračování</Text>
-            <MaterialIcons name="arrow-forward" size={16} color={colors.amber400} />
+            <MaterialIcons
+              name="favorite"
+              size={18}
+              color={colors.onSecondaryContainer}
+            />
+            <Text style={styles.primaryBtnText}>{stop.interactionLabel}</Text>
           </Pressable>
-        ) : (
-          <View style={styles.interactionBlock}>
-            <Text style={styles.interactionPrompt}>{stop.interactionPrompt}</Text>
-            <Pressable
-              onPress={() => {
-                setInteractionDone(true);
-                onInteractionConfirmed();
-              }}
-              style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
-            >
-              <MaterialIcons
-                name="favorite"
-                size={18}
-                color={colors.onSecondaryContainer}
-              />
-              <Text style={styles.primaryBtnText}>{stop.interactionLabel}</Text>
-            </Pressable>
-          </View>
-        )}
+        </View>
       </View>
     </Animated.View>
     </View>
@@ -288,21 +269,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 26,
     color: colors.onBackground,
-  },
-  tapHint: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 12,
-    marginTop: 4,
-  },
-  tapHintText: {
-    fontFamily: 'BeVietnamPro_500Medium',
-    fontSize: 12,
-    letterSpacing: 2,
-    color: colors.amber400,
-    textTransform: 'uppercase',
   },
   interactionBlock: {
     marginTop: 16,

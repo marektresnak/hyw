@@ -44,6 +44,15 @@ export function ArrivalScreen({ stop, hero, isLastStop, onContinue, onExit }: Pr
   const chimeBellstrike = useAudioPlayer(require('../assets/chime-bellstrike.mp3'));
   // A/B per-stop alternation: even stops play tinkerbell, odd play bellstrike.
   const chime = stop.id % 2 === 0 ? chimeTinkerbell : chimeBellstrike;
+  const voice = useAudioPlayer(stop.voice ?? null);
+
+  useEffect(() => {
+    if (!storyVisible || !stop.voice) return;
+    voice.seekTo(0).finally(() => voice.play());
+    return () => {
+      voice.pause();
+    };
+  }, [storyVisible, stop.voice]);
 
   useEffect(() => {
     if (!permission?.granted) return;

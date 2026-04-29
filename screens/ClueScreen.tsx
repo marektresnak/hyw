@@ -114,7 +114,7 @@ export function ClueScreen({
           </Pressable>
           <View style={styles.brand}>
             <MaterialIcons name="explore" size={22} color={colors.amber400} />
-            <Text style={styles.brandText}>Potoulky</Text>
+            <Text style={styles.brandText}>Kouzelná Vlněna</Text>
           </View>
           <View style={styles.backBtn} />
         </View>
