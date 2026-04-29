@@ -54,6 +54,27 @@ export function StoryOverlay({
     }
   };
 
+  if (interactionDone) {
+    return (
+      <Animated.View style={[styles.wrap, { opacity }]} pointerEvents="box-none">
+        <Text style={styles.sparkleEarnedFloat}>+1 kousek jiskřičky ✨</Text>
+        <Pressable
+          onPress={onContinue}
+          style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
+        >
+          <MaterialIcons
+            name={isLastStop ? 'flag' : 'arrow-forward'}
+            size={18}
+            color={colors.onSecondaryContainer}
+          />
+          <Text style={styles.primaryBtnText}>
+            {isLastStop ? 'DOKONČIT DEMO' : 'NAJÍT DALŠÍ'}
+          </Text>
+        </Pressable>
+      </Animated.View>
+    );
+  }
+
   return (
     <Animated.View
       style={[
@@ -100,7 +121,7 @@ export function StoryOverlay({
             <Text style={styles.tapHintText}>Klepni pro pokračování</Text>
             <MaterialIcons name="arrow-forward" size={16} color={colors.amber400} />
           </Pressable>
-        ) : !interactionDone ? (
+        ) : (
           <View style={styles.interactionBlock}>
             <Text style={styles.interactionPrompt}>{stop.interactionPrompt}</Text>
             <Pressable
@@ -116,23 +137,6 @@ export function StoryOverlay({
                 color={colors.onSecondaryContainer}
               />
               <Text style={styles.primaryBtnText}>{stop.interactionLabel}</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <View style={styles.interactionBlock}>
-            <Text style={styles.sparkleEarned}>+1 kousek jiskřičky ✨</Text>
-            <Pressable
-              onPress={onContinue}
-              style={({ pressed }) => [styles.primaryBtn, pressed && styles.btnPressed]}
-            >
-              <MaterialIcons
-                name={isLastStop ? 'flag' : 'arrow-forward'}
-                size={18}
-                color={colors.onSecondaryContainer}
-              />
-              <Text style={styles.primaryBtnText}>
-                {isLastStop ? 'DOKONČIT DEMO' : 'NAJÍT DALŠÍ'}
-              </Text>
             </Pressable>
           </View>
         )}
@@ -233,13 +237,15 @@ const styles = StyleSheet.create({
     color: colors.onSurfaceVariant,
     textAlign: 'center',
   },
-  sparkleEarned: {
+  sparkleEarnedFloat: {
     fontFamily: 'Newsreader_700Bold',
-    fontSize: 18,
+    fontSize: 22,
     color: colors.amber400,
     textAlign: 'center',
-    textShadowColor: 'rgba(233,195,73,0.4)',
-    textShadowRadius: 12,
+    marginBottom: 16,
+    textShadowColor: 'rgba(0,0,0,0.85)',
+    textShadowRadius: 10,
+    textShadowOffset: { width: 0, height: 1 },
   },
   primaryBtn: {
     flexDirection: 'row',
