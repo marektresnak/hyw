@@ -1,4 +1,4 @@
-# Jiskřička z Vlněny
+# Kouzelná Vlněna
 
 Krátký příběh pro dětskou procházkovou hru ve Vlněně a okolí.
 
@@ -10,114 +10,96 @@ Vypravěč: neutrální množné číslo, bez rozlišování pohlaví hráčů
 ## Tón a pravidla příběhu
 
 - Příběh má být laskavý, jednoduchý a trochu kouzelný.
-- Děti na každém místě získají jeden kousek ztracené "jiskřičky radosti".
+- Děti na každém místě získají kousek ztracené jiskřičky radosti.
 - Závěr není o boji silou, ale o odvaze, smíchu a pomoci.
-- Texty by měly být krátké, srozumitelné a vhodné pro hlasové přehrání.
+- Texty jsou psané tak, aby šly přehrát jako voiceover bez nutnosti čtení.
 - Každé zastavení má navazovat na reálný detail místa.
 
 ## Trasa
 
-1. Borovice
-2. Hmyzí domeček
-3. Kola před vstupem do budovy Vlněny
-4. Zelené zátiší s tulipány
-5. Druhý hmyzí domeček a restaurace se slunečnicemi
-6. Vstup do L'Osteria s vistériemi
-7. Industriální komín
-8. Dětské hřiště s houpacími koníky a plastovým domečkem
+1. Hájek šeptajících borovic - `IMG_3993.jpg`
+2. Domeček malých broučků - `IMG_3994.jpg`
+3. Náměstíčko kulatých koleček - `IMG_3995.jpg`
+4. Zahrádka barevných kalíšků - `IMG_3996.jpg`
+5. Brána fialových květů - `IMG_3998.jpg`
+6. Věž kouřového draka - `IMG_3999.jpg`
+7. Hřiště veselého dráčka - `IMG_4001.jpg`
 
 ## Příběh
 
-### 1. Borovice (IMG_3993.jpg)
+### 1. Hájek šeptajících borovic - `IMG_3993.jpg`
 
-Pssst, slyšíte to šustění? To si borovice šeptají staré tajemství.
+„Pssst, slyšíte to šustění? To si borovice šeptají staré tajemství. V noci tudy proletěla malá jiskřička radosti, ale ztratila sedm třpytivých kousků. Bez nich je tady všechno trošku tišší. Pomůžete nám kousky jiskřičky najít? První stopa voní po jehličí a navede nás dál, tam, kde bydlí maličcí broučci.“
 
-V noci tudy proletěla malá jiskřička radosti, ale ztratila osm třpytivých kousků. Bez nich je tady všechno trošku tišší.
+### 2. Domeček malých broučků - `IMG_3994.jpg`
 
-Pomůžete nám je najít? První stopa voní po jehličí a vede tam, kde bydlí maličcí broučci.
+„Jééé, našli jste obydlí broučků, včelek a dalších drobných sousedů. Jeden z nich našel první třpytku schovanou mezi klacíky. Ale neumí ji odnést, má na to moc malé nožičky. Musíme mu trochu pomoct.
 
-### 2. Hmyzí domeček (IMG_3994.jpg)
+Výborně, první kousek máme! Broučci říkají, že další stopa se odkutálela nedaleko... vypadalo to jako kolo.“
 
-Tady bydlí broučci, včelky a další drobní sousedé.
+### 3. Náměstíčko kulatých koleček - `IMG_3995.jpg`
 
-Jeden z nich našel první třpytku schovanou mezi klacíky. Ale neumí ji odnést, má na to moc malé nožičky.
+„Kola, kola, kolečka! Tady se druhý kousek jiskřičky zatočil tak rychle, až se mu z toho zamotala hlava. Musíme ho zastavit jemným kouzlem: raz, dva, tři, stojíme!
 
-Výborně, první kousek máme! Broučci říkají, že další stopa se kutálela pryč... kulatá jako kolo.
+A teď spolu: Raz, dva, tři. Stojíme!
 
-### 3. Kola před Vlněnou (IMG_3995.jpg)
+Paráda. Teď už svítí druhý kousek.
 
-Kola, kola, kolečka!
+Další prý hledá barvy, vůni a místo, kde se schovávají květiny.“
 
-Tady se druhý kousek jiskřičky zatočil tak rychle, až se mu z toho zamotala hlava.
+### 4. Zahrádka barevných kalíšků - `IMG_3996.jpg`
 
-Musíme ho zastavit jemným kouzlem: raz, dva, tři, stojíme!
+„Tady je to jako malá zahrádka uprostřed města. Tulipány drží třetí kousek jiskřičky ve svých barevných kalíšcích. Nechtěly ho pustit, dokud někdo neřekne něco hezkého.
 
-Paráda. Teď už svítí druhý kousek. Další prý hledá barvy, vůni a místo, kde se schovávají květiny.
+Co třeba, že jsou moc roztomilé?
 
-### 4. Zelené zátiší s tulipány
+Jo? Tak paráda!
 
-Tady je to jako malá zahrádka uprostřed města.
+Tak jim zamáváme a poděkujeme. Třetí kousek máme!
 
-Tulipány drží třetí kousek jiskřičky ve svých barevných kalíšcích. Nechtěly ho pustit, dokud někdo neřekne něco hezkého.
+Slunečnice se otáčejí za sluncem a dívají se na náš další cíl. Vypadá to, že se čtvrtá část jiskřičky schovává někde ve fialových květech nad vchodem do L'Osterie.“
 
-Tak jim zamáváme a poděkujeme.
+### 5. Brána fialových květů - `IMG_3998.jpg`
 
-Třetí kousek máme! Ale pozor, v trávě někdo bzučí další zprávu.
+„Podívejte, květy visí jako kouzelné závěsy. Tady spí čtvrtý kousek jiskřičky, zabalený do fialové vůně. Musíme mluvit potichu, aby se nelekl.
 
-### 5. Hmyzí domeček a slunečnice
+Ššš... počkeeej... a už je u nás.
 
-Slunečnice se otáčejí za světlem a hmyzí domeček šeptá: tudy prošel hladový mráček!
+A vítr nám přinesl zprávu: u vysokého komína se probudil kouřový drak.“
 
-Vzal čtvrtý kousek jiskřičky a schoval ho do žlutého sluníčka.
+### 6. Věž kouřového draka - `IMG_3999.jpg`
 
-Zkusíme se usmát co nejvíc, aby se sluníčko rozzářilo.
-
-Ano! Kousek vyskočil ven. Další stopa voní po fialových květech.
-
-### 6. L'Osteria a vistérie
-
-Podívejte, květy visí jako kouzelné závěsy.
-
-Tady spí pátý kousek jiskřičky, zabalený do fialové vůně. Musíme mluvit potichu, aby se nelekl.
-
-Ššš... a už je u nás.
-
-Jenže vítr přinesl zprávu: u vysokého komína se probudil kouřový drak.
-
-### 7. Industriální komín
-
-Tady stojí vysoký komín jako věž.
-
-A kolem něj se kroutí kouřový drak! Nebojte, není zlý, jen hlídá šestý a sedmý kousek, protože si myslí, že jsou to jeho poklady.
+„Tady stojí vysoký komín jako věž. A kolem něj se kroutí kouřový drak! Nebojte, není zlý, jen hlídá pátý a šestý kousek, protože si myslí, že jsou to jeho poklady.
 
 Ukážeme mu, že jsme stateční pomocníci: dupneme, foukneme a řekneme: draku, pusť světýlko ven!
 
-Výborně, drak se usmál a ukázal cestu na hřiště.
+Tak a teď spolu: dupneme, foukneme a řekneme: draku, pusť světýlko ven!
 
-### 8. Dětské hřiště
+Výborně, drak se usmál a ukázal cestu na hřiště.“
 
-Tady je poslední místo.
+### 7. Hřiště veselého dráčka - `IMG_4001.jpg`
 
-Modrý koník hlídá branku do malého domečku, kde čeká poslední kousek jiskřičky.
+„A jsme v cíli!
 
-Neporazíme ho silou, ale smíchem. Zahoupeme se v představách tam a zpátky: hop, hop, hop!
+A jéje, malý modrý dráček tady hlídá taky! Jak jenom poslední jiskřičku získáme?
 
-Koník odcválal a domeček se otevřel.
+Nene, neporazíme dráčka silou, ale společně ho rozesmějeme. Pojďme společně: HAHAHA!
 
-Jiskřička je celá! Teď může znovu rozsvítit radost všude kolem.
+Vidíte, dráček se směje s námi a předává nám poslední kousek jiskřičky. Jiskřička je celá! Teď může znovu rozsvítit radost všude kolem.
 
-Děkujeme, malí dobrodruzi.
+A pohrajte si na tomhle kouzelném místě dosytosti.
+
+Děkujeme, malí dobrodruzi.“
 
 ## Poznámky pro aplikaci
 
 - Každý bod může mít vlastní `storyText`, `nextClue` a případně jednoduchou akci pro děti.
-- Texty jsou psané tak, aby šly přehrát jako voiceover bez nutnosti čtení.
+- Fotky v trase odpovídají aktuálně vybraným bodům příběhu.
 - Doporučené jednoduché interakce:
-  - borovice: poslouchat šustění
-  - hmyzí domeček: najít malé obyvatele
-  - kola: zastavit se na "raz, dva, tři"
-  - tulipány: zamávat a poděkovat
-  - slunečnice: usmát se
-  - vistérie: mluvit potichu
-  - komín: dupnout a fouknout
-  - hřiště: říct "hop, hop, hop"
+  - Hájek šeptajících borovic: poslouchat šustění
+  - Domeček malých broučků: najít malé obyvatele
+  - Náměstíčko kulatých koleček: zastavit se na "raz, dva, tři"
+  - Zahrádka barevných kalíšků: zamávat, poděkovat a usmát se
+  - Brána fialových květů: mluvit potichu
+  - Věž kouřového draka: dupnout a fouknout
+  - Hřiště veselého dráčka: rozesmát dráčka
